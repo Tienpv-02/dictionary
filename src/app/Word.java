@@ -1,3 +1,5 @@
+package app;
+
 public class Word {
 
   private String word_target;
