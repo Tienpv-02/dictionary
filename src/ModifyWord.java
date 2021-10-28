@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,15 +16,16 @@ public class ModifyWord extends javax.swing.JFrame {
      * Creates new form ModifyWord
      */
     Dictionary dict;
-    public String modVal;
+    JEditorPane txtExplain;
     int index = -1;
     public ModifyWord() {
         initComponents();
     }
     
-    public ModifyWord(Dictionary dict, int index) {
+    public ModifyWord(Dictionary dict, int index, JEditorPane txtExplain) {
         initComponents();
         this.dict = dict;
+        this.txtExplain = txtExplain;
         this.index = index;
     }
 
@@ -45,6 +47,7 @@ public class ModifyWord extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 255, 255));
         setResizable(false);
+        setLocation(450,150);
 
         jLabel1.setText("Nội dung thay đổi ");
 
@@ -109,7 +112,7 @@ public class ModifyWord extends javax.swing.JFrame {
         if (!val.isEmpty()) {
             val = "<html>" + val + "</html>";
             dict.words.get(index).setWord_explain(val);
-            modVal = val;
+            txtExplain.setText(val);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null,"Chuỗi rỗng","Modify fail!!", JOptionPane.OK_OPTION);

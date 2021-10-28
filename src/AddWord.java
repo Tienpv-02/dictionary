@@ -48,6 +48,7 @@ public class AddWord extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        setLocation(400,100);
 
         jLabel1.setText("Từ mới");
 

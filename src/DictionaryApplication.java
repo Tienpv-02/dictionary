@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
-import java.awt.Font;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -20,6 +20,7 @@ public class DictionaryApplication extends javax.swing.JFrame {
 
     private final Dictionary dict;
     DefaultListModel listModel = new DefaultListModel();
+    TextToSpeech tts = new TextToSpeech();
     /**
      * Creates new form DictionaryApplication
      */
@@ -34,6 +35,7 @@ public class DictionaryApplication extends javax.swing.JFrame {
         }
         wordList.setModel(listModel);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,6 +67,7 @@ public class DictionaryApplication extends javax.swing.JFrame {
         ImageIcon logo = new ImageIcon("src/resources/book.png");
         setIconImage(logo.getImage());
         setResizable(false);
+        setLocation(400,100);
 
         /** ghi lai vao file truoc khi dong chuong trinh.*/
         addWindowListener(new WindowAdapter() {
@@ -234,7 +237,12 @@ public class DictionaryApplication extends javax.swing.JFrame {
     }//GEN-LAST:event_txtInputWordActionPerformed
 
     private void voiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voiceButtonActionPerformed
-        // TODO add your handling code here:
+        int index = wordList.getSelectedIndex();
+        if (index == -1) {
+            return;
+        }
+       String tar = wordList.getSelectedValue();
+       tts.speakText(tar);
     }//GEN-LAST:event_voiceButtonActionPerformed
 
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
@@ -243,6 +251,8 @@ public class DictionaryApplication extends javax.swing.JFrame {
         if (index == -1) {
            return;
         } else {
+            wordList.setSelectedIndex(index);
+            wordList.ensureIndexIsVisible(index);
             txtExplan.setText(dict.words.get(index).getWord_explain());
         }
     }//GEN-LAST:event_SearchButtonActionPerformed
@@ -257,9 +267,8 @@ public class DictionaryApplication extends javax.swing.JFrame {
         if (index < 0 ) {
             return;
         }
-        ModifyWord modifyWord = new ModifyWord(dict,index);
+        ModifyWord modifyWord = new ModifyWord(dict,index,txtExplan);
         modifyWord.setVisible(true);
-        txtExplan.setText(modifyWord.modVal);
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
