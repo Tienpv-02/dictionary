@@ -19,7 +19,6 @@ public class AddWord extends javax.swing.JFrame {
      * Creates new form addWord
      */
     Dictionary dict;
-    Word newWord;
     JList<String> wordList;
     public AddWord() {
         initComponents();
@@ -151,13 +150,14 @@ public class AddWord extends javax.swing.JFrame {
             String xplain = explainTextArea.getText().trim().toLowerCase();
             if (xplain.equals("")) {
              JOptionPane.showMessageDialog(null,"Chuỗi rỗng","Error Add New Word!", JOptionPane.OK_OPTION);
+             return;
             }
             int index = dict.preBinarySearch(tar);
             xplain = "<html>" + xplain + "</html>";
-            Word w = new Word(tar,xplain);
-            dict.words.add(index,w);
+            Word newWord = new Word(tar,xplain);
+            dict.words.add(index,newWord);
             DefaultListModel mod = (DefaultListModel) wordList.getModel();
-            mod.add(index,w.getWord_target());
+            mod.add(index,newWord.getWord_target());
             wordList.setSelectedIndex(index);
             wordList.ensureIndexIsVisible(index);
             this.dispose();

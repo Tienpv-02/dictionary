@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -109,34 +111,13 @@ public class Dictionary {
     return mid;
   }
 
-  /*private int BinarySearchApproximate(String text){
-    int subStr = text.length();
-    int left = 0;
-    int right = words.size() - 1;
-    String s;
-    while(left < right){
-      int mid = (left + right) /2;
-      Word tmp = words.get(mid);
-      s = tmp.getWord_target().length() > subStr ? tmp.getWord_target().substring(0, subStr) : tmp.getWord_target();
-      if(text.compareToIgnoreCase(s) == 0){
-        return mid;
-      } else if(text.compareToIgnoreCase(s) < 0){
-        left = mid + 1;
-      } else if(text.compareToIgnoreCase(s) > 0) {
-        right = mid - 1;
-      }
+  void writeToFile() throws IOException {
+    FileWriter writer = new FileWriter("src/resources/E_V.txt");
+    BufferedWriter bw = new BufferedWriter(writer);
+    for (Word w : words) {
+      bw.write(w.getWord_target() + w.getWord_explain() + '\n');
     }
-    return 0;
-
-  }
-  public int getIndex(String target){
-    return binarySearch(target) == -1 ? BinarySearchApproximate(target) : binarySearch(target) ;
+    bw.close();
   }
 
-
-   public static void main(String[] args) {
-    Dictionary dictionary = new Dictionary();
-    dictionary.insertFromFile("resources\\E_V.txt");
-    System.out.println(dictionary.binarySearch("test"));
-    }*/
 }

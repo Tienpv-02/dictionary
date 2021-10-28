@@ -4,8 +4,12 @@
  */
 
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
@@ -52,6 +56,7 @@ public class DictionaryApplication extends javax.swing.JFrame {
         modifyButton = new javax.swing.JButton();
         TitleLable = new javax.swing.JLabel();
 
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EN-VN DICTIONARY");
         setBackground(new java.awt.Color(0, 153, 51));
@@ -60,6 +65,18 @@ public class DictionaryApplication extends javax.swing.JFrame {
         ImageIcon logo = new ImageIcon("src/resources/book.png");
         setIconImage(logo.getImage());
         setResizable(false);
+
+        /** ghi lai vao file truoc khi dong chuong trinh.*/
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                // The window is closing
+                try {
+                    dict.writeToFile();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         jScrollPane1.setForeground(new java.awt.Color(204, 255, 255));
 
@@ -200,9 +217,8 @@ public class DictionaryApplication extends javax.swing.JFrame {
     private void wordListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_wordListValueChanged
         int index = wordList.getSelectedIndex();
         if (index != -1) {
-            Word word = dict.words.get(index);
             txtExplan.setContentType("text/html");
-            txtExplan.setText(word.getWord_explain());
+            txtExplan.setText(dict.words.get(index).getWord_explain());
             txtExplan.setCaretPosition(0);
         }
     }//GEN-LAST:event_wordListValueChanged
@@ -225,7 +241,7 @@ public class DictionaryApplication extends javax.swing.JFrame {
         String value = txtInputWord.getText().toLowerCase().trim();
         int index = dict.binarySearch(value);
         if (index == -1) {
-            txtExplan.setText("<b>Không có dữ liệu</b>");
+           return;
         } else {
             txtExplan.setText(dict.words.get(index).getWord_explain());
         }
@@ -238,11 +254,12 @@ public class DictionaryApplication extends javax.swing.JFrame {
 
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
         int index = wordList.getSelectedIndex();
+        if (index < 0 ) {
+            return;
+        }
         ModifyWord modifyWord = new ModifyWord(dict,index);
-        txtExplan.setText(dict.words.get(index).getWord_explain());
         modifyWord.setVisible(true);
-        wordList.setSelectedIndex(index);
-        txtExplan.replaceSelection(dict.words.get(index).getWord_explain());
+        txtExplan.setText(modifyWord.modVal);
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -251,7 +268,8 @@ public class DictionaryApplication extends javax.swing.JFrame {
         if (index != -1) {
             dict.removeWord(index);
             mod.remove(index);
-            txtExplan.setText("<b>Xoá thành công</b>");
+            txtExplan.setText("");
+            JOptionPane.showMessageDialog(null,"Xoá từ thành công","Delete Word!", JOptionPane.NO_OPTION);
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 

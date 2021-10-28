@@ -15,6 +15,7 @@ public class ModifyWord extends javax.swing.JFrame {
      * Creates new form ModifyWord
      */
     Dictionary dict;
+    public String modVal;
     int index = -1;
     public ModifyWord() {
         initComponents();
@@ -108,6 +109,7 @@ public class ModifyWord extends javax.swing.JFrame {
         if (!val.isEmpty()) {
             val = "<html>" + val + "</html>";
             dict.words.get(index).setWord_explain(val);
+            modVal = val;
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null,"Chuỗi rỗng","Modify fail!!", JOptionPane.OK_OPTION);
